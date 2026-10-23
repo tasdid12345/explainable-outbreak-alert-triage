@@ -1,0 +1,31 @@
+{
+  "question": "Can a class-balanced, calibrated gradient-boosting model with per-alert feature attributions flag rare outbreak-like signals more reliably than a standard logistic regression on a public social-text-derived dataset?",
+  "method": "Stand-in experiment on UCI Adult (rare >50K class). Single stratified 75/25 split (seed 42). Baseline: logistic regression on raw labels. Improved: class-balanced LightGBM with CV grid search and sigmoid calibration, with per-alert contributions. Metric: F1 on rare class.",
+  "dataset": {
+    "name": "UCI Adult (income >50K)",
+    "source_url": "https://archive.ics.uci.edu/dataset/2/adult",
+    "n_rows": 48842,
+    "n_train": 36631,
+    "n_test": 12211,
+    "same_as_paper": false,
+    "baseline_is_papers_method": false
+  },
+  "metric_name": "F1 on rare positive class",
+  "higher_is_better": true,
+  "baseline": "Standard logistic regression on standardised/one-hot features, raw imbalanced labels.",
+  "improved": "Class-balanced LightGBM (CV-tuned on train), sigmoid-calibrated probabilities, per-alert top feature contributions.",
+  "metrics": {
+    "baseline_score": 0.6597471220985092,
+    "improved_score": 0.7149523987306328,
+    "improvement": 0.0552052766321236,
+    "baseline_score_std": 0.0,
+    "improved_score_std": 0.0,
+    "baseline_f1": 0.6597471220985092,
+    "improved_f1": 0.7149523987306328,
+    "baseline_recall": 0.5982203969883642,
+    "improved_recall": 0.6553730321697467,
+    "baseline_brier": 0.10326296816054023,
+    "improved_brier": 0.08792291008444915
+  },
+  "notes": "Adult is a tabular income dataset, not social-media outbreak data; it is only a stand-in for a rare-positive-class task. Threshold fixed at 0.5 for both models. Best LightGBM grid params (last seed): {'learning_rate': 0.1, 'n_estimators': 200, 'num_leaves': 31}. Test set used once per model; tuning used only train CV. Baseline is deterministic, so its std is 0. Single split, so results have split-level variance."
+}
